@@ -147,7 +147,8 @@ export default function Dashboard() {
             Covidon
           </Typography>
           <div className={classes.search}>
-            <Search className={classes.inputInput,classes.searchIcon} />
+            <Search className={
+              classes.inputInput} />
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
