@@ -66,8 +66,7 @@ export default function Search() {
     >{
     Alldis.map((el)=>{
       el.districts.map((district,index)=> {
-        console.log(district);
-        state !== "" && <MenuItem key={index} value={district}>{district}</MenuItem>
+        return <MenuItem key={index} value={district}>{district}</MenuItem>
     })
   })
     }
