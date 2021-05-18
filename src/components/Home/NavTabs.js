@@ -68,35 +68,32 @@ export default function NavTabs() {
           scrollButtons="auto"
           aria-label="scrollable auto tabs example"
         >
-          <Tab label="Item One" {...a11yProps(0)} />
-          <Tab label="Item Two" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
-          <Tab label="Item Four" {...a11yProps(3)} />
-          <Tab label="Item Five" {...a11yProps(4)} />
-          <Tab label="Item Six" {...a11yProps(5)} />
-          <Tab label="Item Seven" {...a11yProps(6)} />
+          <Tab label="Oxygen" {...a11yProps(0)} />
+          <Tab label="Plasma" {...a11yProps(1)} />
+          <Tab label="Medicine" {...a11yProps(2)} />
+          <Tab label="Food" {...a11yProps(3)} />
+          <Tab label="Beds" {...a11yProps(4)} />
+          <Tab label="others" {...a11yProps(5)} />
+         
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        Item One
+        Oxygen
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+        Plasma
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Item Three
+        Medicine
       </TabPanel>
       <TabPanel value={value} index={3}>
-        Item Four
+        Food
       </TabPanel>
       <TabPanel value={value} index={4}>
-        Item Five
+        Beds
       </TabPanel>
       <TabPanel value={value} index={5}>
-        Item Six
-      </TabPanel>
-      <TabPanel value={value} index={6}>
-        Item Seven
+        others
       </TabPanel>
     </div>
   );
