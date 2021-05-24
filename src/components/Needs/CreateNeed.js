@@ -8,8 +8,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import data from '../../data.json';
-import {connect} from 'react-redux';
-import {createResource} from "../../store/actions/resourceActions"
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -49,25 +47,21 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-const CreateResource = (props) => {
+const CreateNeed = () => {
+
     const [formData, setformData] = useState({
-        resType: "",
-        stock: null,
-        bloodType:null,
-        otherName:null,
+        name: "",
+        bloodType: "",
+        needType:null,
+        description: "",
         district:"",
-        state:"Andhra Pradesh"
+        state:"Andhra Pradesh",
+        phNo:""
     })
 
-    const {resType,stock,bloodType,otherName,description,district,state} = formData;
+    const {name,needType,bloodType,description,district,state} = formData;
     const handleChange = (e) => {
         setformData({ ...formData, [e.target.id]: e.target.value })
-    }
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(formData);
-        props.createRes(formData);
     }
 
     const classes = useStyles();
@@ -76,35 +70,34 @@ const CreateResource = (props) => {
             <Dashboard>
                 <form className={classes.container}>
                     <FormControl className={classes.formControl} >
-                        <h3 className={classes.header}>Create Resource</h3>
-                        <FormControl className={classes.select}>
-                        <InputLabel id="demo-simple-select-label">Resource type</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="type"
-                            value={resType}
-                            onChange={(e)=>{
-                                setformData({...formData,resType:e.target.value})
-                            }}
-                        >
-                            <MenuItem value="oxygen">Oxygen</MenuItem>
-                            <MenuItem value="plasma">Plasma</MenuItem>
-                            <MenuItem value="medicine">Medicine</MenuItem>
-                            <MenuItem value="food">Food</MenuItem>
-                            <MenuItem value="beds">Beds</MenuItem>
-                            <MenuItem value="others">Others</MenuItem>
-                        </Select>
-                        </FormControl>
-                        {resType !== "Plasma" && <TextField
-                            id="stock"
-                            label="stock"
+                        <h3 className={classes.header}>Post Need</h3>
+                        <TextField
+                            id="name"
+                            label="Patient Name"
                             type="text"
                             onChange={handleChange}
                             required
-                            value={stock}
+                            value={name}
                             className={classes.alignForms}
-                        />}
-                        {resType === "Plasma" && <TextField
+                        />
+                        <FormControl className={classes.select}>
+                        <InputLabel id="demo-simple-select-label">Need</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="type"
+                            value={needType}
+                            onChange={(e)=>{
+                                setformData({...formData,needType:e.target.value})
+                            }}
+                        >
+                            <MenuItem value="Oxygen">Oxygen</MenuItem>
+                            <MenuItem value="Plasma">Plasma</MenuItem>
+                            <MenuItem value="Medicine">Medicine</MenuItem>
+                            <MenuItem value="Food">Food</MenuItem>
+                            <MenuItem value="Beds">Beds</MenuItem>
+                            <MenuItem value="Others">Others</MenuItem>
+                        </Select>
+                        {needType === "Plasma" && <TextField
                             id="Blood Type"
                             label="Blood Type"
                             type="text"
@@ -113,15 +106,16 @@ const CreateResource = (props) => {
                             value={bloodType}
                             className={classes.alignForms}
                         />}
-                        {resType === "Other" && <TextField
-                            id="Resource Name"
-                            label="Resource Name"
+                        </FormControl>
+                        <TextField
+                            id="description"
+                            label="Description"
                             type="text"
+                            value={description}
                             onChange={handleChange}
                             required
-                            value={otherName}
                             className={classes.alignForms}
-                        />}
+                        />
                         <FormControl className={classes.select}>
                         <InputLabel >State</InputLabel>
                         <Select
@@ -156,7 +150,7 @@ const CreateResource = (props) => {
                                 ))}
                         </Select>
                         </FormControl>
-                        <Button  onClick={handleSubmit} variant="contained" color="primary">
+                        <Button variant="contained" color="primary">
                             create
                         </Button>
                     </FormControl>
@@ -166,16 +160,4 @@ const CreateResource = (props) => {
     )
 }
 
-const mapStateToProps = (state) => {
-    console.log(state)
-}
-
-
-const mapDispatchToProps = (dispatch) => {
-    return{
-        createRes:(resource) => dispatch(createResource(resource))
-    }
-}
-
-
-export default connect(mapStateToProps,mapDispatchToProps)(CreateResource);
+export default CreateNeed;

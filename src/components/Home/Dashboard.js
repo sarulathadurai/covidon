@@ -11,8 +11,10 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import Search from './Search';
 import { Link } from 'react-router-dom';
 
-
 const useStyles = makeStyles((theme) => ({
+
+  appBar: {
+  },
   grow: {
     flexGrow: 1,
   },
@@ -154,11 +156,13 @@ export default function Dashboard({ children }) {
   return (
     <>
       <div className={classes.grow}>
-        <AppBar position="static">
+        <AppBar position="static" className={classes.appBar}>
           <Toolbar>
-            <Typography className={classes.title} variant="h6" noWrap>
-              Covidon
+            <Link to="/" className={classes.link}>
+              <Typography className={classes.title} variant="h6" noWrap>
+                Covidon
           </Typography>
+            </Link>
             <div className={classes.search}>
               <Search className={
                 classes.inputInput} />
@@ -167,6 +171,9 @@ export default function Dashboard({ children }) {
             <div className={classes.sectionDesktop}>
               <Link to="/create" className={classes.link}>
                 <MenuItem>Create Resources</MenuItem>
+              </Link>
+              <Link to="/post" className={classes.link}>
+                <MenuItem>Post Need</MenuItem>
               </Link>
               <Link to="/signin" className={classes.link}>
                 <MenuItem>Login</MenuItem>

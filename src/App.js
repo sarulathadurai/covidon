@@ -1,11 +1,9 @@
-import Dashboard from './components/Home/Dashboard';
-import NavTabs from './components/Home/NavTabs';
+import Layout from "./components/Home/Layout";
 
 function App() {
   return (
     <div className="App">
-      <Dashboard/>
-      <NavTabs/>
+      <Layout/>
     </div>
   );
 }

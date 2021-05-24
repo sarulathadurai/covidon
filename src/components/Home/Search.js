@@ -12,6 +12,8 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import SearchIcon from "@material-ui/icons/Search";
 import data from "../../data.json";
+import {connect} from "react-redux";
+
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -24,14 +26,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Search = () => {
+const Search = (props) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [district, setDistrict] = useState("");
   const [state, setState] = useState("Andhra Pradesh");
-
-  console.log({ state, district });
-
+  console.log(props);
   return (
     <React.Fragment>
       <Button color="inherit" onClick={() => setOpen(true)}>
@@ -54,7 +54,6 @@ const Search = () => {
                 id="demo-dialog-select"
                 value={state}
                 onChange={(e) => {
-                  console.log(e.target.value);
                   setState(e.target.value);
                 }}
                 input={<Input />}
@@ -73,7 +72,6 @@ const Search = () => {
                 id="demo-dialog-select"
                 value={district}
                 onChange={(e) => {
-                  console.log(e.target.value);
                   setDistrict(e.target.value);
                 }}
                 input={<Input />}
@@ -93,7 +91,10 @@ const Search = () => {
           <Button onClick={() => setOpen(false)} color="primary">
             Cancel
           </Button>
-          <Button onClick={() => setOpen(false)} color="primary">
+          <Button onClick={() => {
+            props.addLocation({district,state})
+            setOpen(false)
+            }} color="primary">
             Ok
           </Button>
         </DialogActions>
@@ -102,4 +103,10 @@ const Search = () => {
   );
 };
 
-export default Search;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addLocation:(payload) => dispatch({type:"ADD_LOCATION",payload:payload})
+  }
+}
+
+export default connect(null,mapDispatchToProps)(Search);

@@ -6,6 +6,12 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import ResourceDetails from '../resources/ResourceDetails';
+import { Button, Container } from '@material-ui/core';
+import {firestoreConnect} from "react-redux-firebase";
+import {compose} from "redux";
+import { connect } from 'react-redux';
+import Grid from '@material-ui/core/Grid';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -46,9 +52,24 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     backgroundColor: theme.palette.background.paper,
   },
+  tab:{
+    border:'1px solid purple',
+    borderRadius:'20px',
+    padding:'10px 20px'
+  }
 }));
 
-export default function NavTabs() {
+const NavTabs = (props) =>{
+
+  const {oxygen,
+    beds,
+    plasma,
+    medicine,
+    food,
+    others,
+    district,
+    state} = props;
+
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -56,7 +77,32 @@ export default function NavTabs() {
     setValue(newValue);
   };
 
+  const showResults = () => {
+    if(district){
+      return(
+        <Typography>
+        All results are shown for {district}.
+      </Typography>
+      );
+    }
+      else if (state){
+        return (     
+        <Typography>
+          All results are shown for {state}.
+        </Typography>
+        )
+      }
+      else{
+        return(
+        <Typography>
+          All results are shown.
+        </Typography>
+        )
+      }
+  }
+
   return (
+    <>
     <div className={classes.root}>
       <AppBar position="static" color="default">
         <Tabs
@@ -74,27 +120,65 @@ export default function NavTabs() {
           <Tab label="Food" {...a11yProps(3)} />
           <Tab label="Beds" {...a11yProps(4)} />
           <Tab label="others" {...a11yProps(5)} />
-         
-        </Tabs>
+        </Tabs>   
       </AppBar>
+      <Box>
+      {showResults()}
+      </Box>
       <TabPanel value={value} index={0}>
-        Oxygen
+        <Container>
+        <ResourceDetails res = {oxygen} district = {district} />
+        </Container>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Plasma
+      <ResourceDetails res = {plasma}  district = {district}/>
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Medicine
+      <ResourceDetails res = {medicine}  district = {district}/>
       </TabPanel>
       <TabPanel value={value} index={3}>
-        Food
+      <ResourceDetails res = {food}  district = {district}/>
       </TabPanel>
       <TabPanel value={value} index={4}>
-        Beds
+      <ResourceDetails res = {beds}  district = {district}/>
       </TabPanel>
       <TabPanel value={value} index={5}>
-        others
+      <ResourceDetails res = {others} district = {district}/>
       </TabPanel>
     </div>
+  </>
   );
 }
+
+const mapStateToProps = (states) => {
+
+  const resources = states.firestore.ordered.resources;
+  console.log(states)
+  const {state,district} = states.loc;
+
+  const oxygen = resources ? resources.filter((res) => res.resType === 'oxygen'):[];            
+  const beds =  resources? resources.filter((res) => res.resType === 'beds' ):[];
+  const food =  resources? resources.filter((res) => res.resType === 'food' ):[]; 
+  const plasma =  resources? resources.filter((res) => res.resType === 'plasma' ):[];             
+  const medicine = resources? resources.filter((res) => res.resType === 'medicine'):[];              
+  const others = resources? resources.filter((res) => res.resType === 'others' ):[]; 
+                 
+  
+  return {
+    oxygen,
+    beds,
+    plasma,
+    food,
+    medicine,
+    others,
+    state,
+    district
+  }
+}
+
+export default compose(
+  connect(mapStateToProps),
+  firestoreConnect([{
+    collection: 'resources'
+  }])
+)(NavTabs)

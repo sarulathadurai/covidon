@@ -4,6 +4,8 @@ import {makeStyles} from "@material-ui/core/styles";
 import {FormControl} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Dashboard from '../Home/Dashboard';
+import {connect} from 'react-redux';
+import {signin} from '../../store/actions/authActions'; 
 
 const useStyles = makeStyles((theme) => ({
     container:{
@@ -39,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-const Signin = () => {
+const Signin = (props) => {
     
     const [formData,setformData] = useState({
         email:"",
@@ -52,11 +54,13 @@ const Signin = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        props.signIn(formData);
+        
     }
     const classes = useStyles();
     return(
         <Dashboard>
-        <form className={classes.container} onSubmit={handleSubmit}>                
+        <form className={classes.container} >                
             <FormControl className={classes.formControl} >
                 <h3 className={classes.header}>Login</h3>
                 <TextField  
@@ -73,13 +77,30 @@ const Signin = () => {
                     onChange = {handleChange}
                     className={classes.alignForms}
                />
-               <Button variant="contained" color="primary">
+               <Button variant="contained" color="primary"  onClick={handleSubmit}>
                   Login
                </Button>
             </FormControl>
         </form>
+        {/* <div className="center red-text">
+              { authError ? <p>{authError}</p> : null }
+        </div> */}
         </Dashboard>
     )
 }
 
-export default  Signin;
+const mapStateToProps = (state) => {
+    console.log(state);
+    // return{
+    //     authError: state.auth.authError,
+    //     auth: state.firebase.auth
+    //   }
+}
+
+const mapDispatchToProps = (dispatch) =>{
+    return{
+        signIn:(creds) => dispatch(signin(creds))
+    }
+}
+
+export default connect(null,mapDispatchToProps)(Signin);
