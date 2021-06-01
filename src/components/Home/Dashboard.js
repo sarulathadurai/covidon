@@ -6,14 +6,17 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Search from './Search';
-import { Link } from 'react-router-dom';
+import { Link} from 'react-router-dom';
+import {connect} from 'react-redux';
+import SignedOutLinks from './NavLinks/SignOutLinks';
+import SignedInLinks from './NavLinks/SignedInLinks';
 
 const useStyles = makeStyles((theme) => ({
 
   appBar: {
+    background:'primary'
   },
   grow: {
     flexGrow: 1,
@@ -23,6 +26,10 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     display: 'none',
+    fontFamily:'Chela One,cursive',
+    fontSize:'2rem',
+    letterSpacing:"0.1em",
+    color:"#160c66",
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
@@ -36,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
+    color:"#160c66",
     width: '100%',
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(3),
@@ -50,9 +58,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  inputRoot: {
-    color: 'inherit',
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
@@ -84,47 +89,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Dashboard({ children }) {
+const Dashboard = ({ children,auth }) => {
+
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
-  const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
   };
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
-
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-
-  const menuId = 'primary-search-account-menu';
-
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My Post</MenuItem>
-    </Menu>
-  );
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
 
@@ -138,18 +115,8 @@ export default function Dashboard({ children }) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <Link to="/signin" className={classes.link} >
-        <MenuItem>Login</MenuItem>
-      </Link>
-      <Link to="/signup" className={classes.link}>
-        <MenuItem>Signup</MenuItem>
-      </Link>
-      <MenuItem >
-        <p>Profile</p>
-      </MenuItem>
-      <MenuItem>
-        <p>My Posts</p>
-      </MenuItem>
+     {auth?<SignedInLinks/>:
+              <SignedOutLinks/>}
     </Menu>
   );
 
@@ -161,7 +128,8 @@ export default function Dashboard({ children }) {
             <Link to="/" className={classes.link}>
               <Typography className={classes.title} variant="h6" noWrap>
                 Covidon
-          </Typography>
+              
+              </Typography>
             </Link>
             <div className={classes.search}>
               <Search className={
@@ -169,28 +137,8 @@ export default function Dashboard({ children }) {
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              <Link to="/create" className={classes.link}>
-                <MenuItem>Create Resources</MenuItem>
-              </Link>
-              <Link to="/post" className={classes.link}>
-                <MenuItem>Post Need</MenuItem>
-              </Link>
-              <Link to="/signin" className={classes.link}>
-                <MenuItem>Login</MenuItem>
-              </Link>
-              <Link to="/signup" className={classes.link}>
-                <MenuItem>Sign Up</MenuItem>
-              </Link>
-              <IconButton
-                edge="end"
-                aria-label="account of current user"
-                aria-controls={menuId}
-                aria-haspopup="true"
-                onClick={handleProfileMenuOpen}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
+              {auth?<SignedInLinks/>:
+              <SignedOutLinks/>}
             </div>
             <div className={classes.sectionMobile}>
               <IconButton
@@ -206,9 +154,16 @@ export default function Dashboard({ children }) {
           </Toolbar>
         </AppBar>
         {renderMobileMenu}
-        {renderMenu}
       </div>
       {children}
     </>
   );
 }
+
+const mapStateToProps = (states) => {
+  return{
+    auth:states.firebase.auth.uid
+  }
+}
+
+export default connect(mapStateToProps)(Dashboard);

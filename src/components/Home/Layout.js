@@ -13,7 +13,7 @@ export default function Layout() {
 
     return (
         <Dashboard>
-            <Grid container spacing={3}>
+            <Grid container>
                 <Grid item xs={12} sm={12}>
                     <NavTabs />
                 </Grid>

@@ -9,6 +9,8 @@ import firebase from 'firebase/app'
 import {Provider} from "react-redux";
 import { createFirestoreInstance,getFirestore,reduxFirestore } from 'redux-firestore'
 import { ReactReduxFirebaseProvider,getFirebase} from 'react-redux-firebase';
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
 import thunk from 'redux-thunk'
 import config from './config';
  
@@ -19,6 +21,17 @@ const store = createStore(
       reduxFirestore(firebase, config)
   )
 );
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main:'#f5ae03' ,
+    },
+    secondary: {
+      main:'#1e235a',
+    },
+  },
+});
 
 const rrfConfig = {
   userProfile: 'users',
@@ -35,7 +48,9 @@ const rrfProps = {
 ReactDOM.render(
     <Provider store={store}>
       <ReactReduxFirebaseProvider {...rrfProps}>
-      <Routes/>
+      <ThemeProvider theme={theme}>
+        <Routes/>
+      </ThemeProvider>
       </ReactReduxFirebaseProvider>
     </Provider>,
   document.getElementById('root')

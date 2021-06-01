@@ -3,63 +3,64 @@ import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import { FormControl } from "@material-ui/core";
 import Button from "@material-ui/core/Button"
-import Dashboard from '../Home/Dashboard';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import data from '../../data.json';
-import {connect} from 'react-redux';
-import { postNeed } from '../../store/actions/needActions';
+import data from '../../../data.json';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const useStyles = makeStyles((theme) => ({
     container: {
         display: "flex",
         alignItems: 'center',
-        justifyContent: 'center',    
+        justifyContent: 'center',
+
     },
     formControl: {
         display: "flex",
         alignItems: 'center',
         justifyContent: 'center',
-        margin: theme.spacing(6),
         padding: '10px',
-        height: "80vh",
+        height: "auto",
+        background: "white",
         width: '40rem',
-        background:"white"
     },
-    select:{
-        margin:theme.spacing(),
+    select: {
+        margin: theme.spacing(),
         width: "19rem",
         [theme.breakpoints.down('md')]: {
             width: '13rem'
         },
     },
     alignForms: {
-        width: "20rem",
+        width: "18rem",
         [theme.breakpoints.down('md')]: {
             width: 'auto'
         },
         padding: '10px',
         margin: theme.spacing(1)
     },
-    header:{
-        color:"#160c66",
-        letterSpacing:'0.1em',
-        fontFamily:'Chela One,cursive',
-        fontSize:'2rem',
+    header: {
+        color: "#160c66",
+        letterSpacing: '0.1em',
+        fontFamily: 'Chela One,cursive',
+        fontSize: '2rem',
     },
 }))
 
-const CreateNeed = (props) => {
-
+const UpdateNeedForm = (props) => {
+    const {need} = props
     const [formData, setformData] = useState({
-        patientName: "",
-        bloodType: "",
-        needType:"",
-        otherName:"",
-        description: "",
-        district:"",
-        state:"Andhra Pradesh",
+        patientName:need.patientName ,
+        bloodType:need.bloodType ,
+        needType:need.needType,
+        otherName:need.otherName,
+        description:need.description ,
+        district:need.district,
+        state:need.state,
     })
 
     const {name,needType,bloodType,otherName,description,district,state} = formData;
@@ -69,14 +70,21 @@ const CreateNeed = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        props.postNeed(formData);
+        console.log(formData);
+        props.updatePost(need.id,formData);
     }
 
     const classes = useStyles();
     return (
-        <>
-           <Dashboard>
-                <form className={classes.container}>
+        <Dialog
+            open={props.updateOpen}
+            onClose={props.toggleUpdateDialog}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+        >
+            <DialogTitle id="alert-dialog-title" color="secondary">{"Update Stocks"}</DialogTitle>
+            <DialogContent>
+            <form className={classes.container}>
                     <FormControl className={classes.formControl} >
                         <h3 className={classes.header}>Post Need</h3>
                         <TextField
@@ -174,29 +182,20 @@ const CreateNeed = (props) => {
                                 ))}
                         </Select>
                         </FormControl>
-                        <Button variant="contained"  color="secondary" onClick={handleSubmit}>
-                            Post
-                        </Button>
                     </FormControl>
                 </form>
-            </Dashboard>
-        </>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={props.toggleUpdateDialog} color="primary">
+                    Disagree
+                            </Button>
+                <Button onClick={handleSubmit} color="primary" autoFocus>
+                    Agree
+                            </Button>
+            </DialogActions>
+        </Dialog>
     )
 }
 
-const mapStateToProps = (state) => {
-    console.log(state)
-    return{
 
-    }
-}
-
-
-const mapDispatchToProps = (dispatch) => {
-    return{
-        postNeed:(need)=>(dispatch(postNeed(need)))
-    }
-}
-
-
-export default connect(mapStateToProps,mapDispatchToProps)(CreateNeed);
+export default UpdateNeedForm;

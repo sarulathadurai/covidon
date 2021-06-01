@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(6),
         padding: '10px',
         height: "80vh",
-        boxShadow: "-5px 5px 8px #888888",
+        background:"white",
         width: '40rem',
     },
     select:{
@@ -36,30 +36,32 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     alignForms: {
-        width: "20rem",
+        width: "18rem",
         [theme.breakpoints.down('md')]: {
             width: 'auto'
         },
         padding: '10px',
         margin: theme.spacing(1)
     },
-    header: {
-        color: "#3f51b5",
-        borderBottom: "2px solid #3f51b5"
-    }
+    header:{
+        color:"#160c66",
+        letterSpacing:'0.1em',
+        fontFamily:'Chela One,cursive',
+        fontSize:'2rem',
+    },
 }))
 
 const CreateResource = (props) => {
     const [formData, setformData] = useState({
         resType: "",
-        stock: null,
-        bloodType:null,
-        otherName:null,
+        stock: "",
+        bloodType:"",
+        otherName:"",
         district:"",
         state:"Andhra Pradesh"
     })
 
-    const {resType,stock,bloodType,otherName,description,district,state} = formData;
+    const {resType,stock,bloodType,otherName,district,state} = formData;
     const handleChange = (e) => {
         setformData({ ...formData, [e.target.id]: e.target.value })
     }
@@ -78,11 +80,12 @@ const CreateResource = (props) => {
                     <FormControl className={classes.formControl} >
                         <h3 className={classes.header}>Create Resource</h3>
                         <FormControl className={classes.select}>
-                        <InputLabel id="demo-simple-select-label">Resource type</InputLabel>
+                        <InputLabel id="demo-simple-select-label"  color="secondary">Resource type</InputLabel>
                         <Select
                             labelId="demo-simple-select-label"
                             id="type"
                             value={resType}
+                            color="secondary"
                             onChange={(e)=>{
                                 setformData({...formData,resType:e.target.value})
                             }}
@@ -95,38 +98,42 @@ const CreateResource = (props) => {
                             <MenuItem value="others">Others</MenuItem>
                         </Select>
                         </FormControl>
-                        {resType !== "Plasma" && <TextField
+                        {resType !== "plasma" && <TextField
                             id="stock"
                             label="stock"
                             type="text"
+                            color="secondary"
                             onChange={handleChange}
                             required
                             value={stock}
                             className={classes.alignForms}
                         />}
-                        {resType === "Plasma" && <TextField
-                            id="Blood Type"
+                        {resType === "plasma" && <TextField
+                            id="bloodType"
                             label="Blood Type"
                             type="text"
+                            color="secondary"
                             onChange={handleChange}
                             required
                             value={bloodType}
                             className={classes.alignForms}
                         />}
-                        {resType === "Other" && <TextField
-                            id="Resource Name"
+                        {resType === "others" && <TextField
+                            id="otherName"
                             label="Resource Name"
                             type="text"
+                            color="secondary"
                             onChange={handleChange}
                             required
                             value={otherName}
                             className={classes.alignForms}
                         />}
                         <FormControl className={classes.select}>
-                        <InputLabel >State</InputLabel>
+                        <InputLabel color="secondary">State</InputLabel>
                         <Select
                             id="state"    
-                            value={state}                  
+                            value={state}      
+                            color="secondary"            
                             onChange={(e)=>{
                                 setformData({...formData,state:e.target.value})
                             }}
@@ -139,10 +146,11 @@ const CreateResource = (props) => {
                         </Select>
                         </FormControl>
                         <FormControl className={classes.select}>
-                        <InputLabel >District</InputLabel>
+                        <InputLabel  color="secondary" >District</InputLabel>
                         <Select
                             id="district"
                             value={district}
+                            color="secondary"
                             onChange={(e)=>{
                                 setformData({...formData,district:e.target.value})
                             }}
@@ -156,18 +164,14 @@ const CreateResource = (props) => {
                                 ))}
                         </Select>
                         </FormControl>
-                        <Button  onClick={handleSubmit} variant="contained" color="primary">
-                            create
+                        <Button  onClick={handleSubmit} variant="contained"  color="secondary">
+                            Create
                         </Button>
                     </FormControl>
                 </form>
             </Dashboard>
         </>
     )
-}
-
-const mapStateToProps = (state) => {
-    console.log(state)
 }
 
 
@@ -178,4 +182,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default connect(mapStateToProps,mapDispatchToProps)(CreateResource);
+export default connect(null,mapDispatchToProps)(CreateResource);

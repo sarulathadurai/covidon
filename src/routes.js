@@ -5,6 +5,9 @@ import Signup from "./components/User/Signup";
 import Signin from "./components/User/Signin";
 import CreateResources from './components/resources/CreateResources';
 import CreateNeed from './components/Needs/CreateNeed';
+import MyPost from './components/User/MyPosts/MyPost';
+import NeedTabs from './components/Needs/NeedTabs';
+import NeedLayout from './components/Needs/NeedLayout';
 
 const Routes = () => {
 
@@ -16,6 +19,8 @@ const Routes = () => {
             <Route path ="/signin" exact component = {Signin}/>
             <Route path ="/create" exact component = {CreateResources} />
             <Route path="/post" exact component= {CreateNeed} />
+            <Route path="/needs" exact component={NeedTabs} />
+            <Route path="/myposts" exact component = {MyPost} />
         </Switch>
     </Router>
     )

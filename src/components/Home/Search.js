@@ -88,13 +88,13 @@ const Search = (props) => {
           </form>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpen(false)} color="primary">
+          <Button onClick={() => setOpen(false)} color="secondary">
             Cancel
           </Button>
           <Button onClick={() => {
             props.addLocation({district,state})
             setOpen(false)
-            }} color="primary">
+            }} color="secondary">
             Ok
           </Button>
         </DialogActions>

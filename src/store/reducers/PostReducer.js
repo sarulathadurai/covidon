@@ -1,0 +1,7 @@
+initState = {
+
+}
+
+const PostReducer = () => {
+    
+}

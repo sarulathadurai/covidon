@@ -4,6 +4,10 @@ import {makeStyles} from "@material-ui/core/styles";
 import { FormControl } from "@material-ui/core";
 import Button from "@material-ui/core/Button"
 import Dashboard from '../Home/Dashboard';
+import {connect} from 'react-redux';
+import { signUp } from '../../store/actions/authActions';
+import MuiAlert from '@material-ui/lab/Alert';
+import {Redirect} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     container:{
@@ -18,11 +22,11 @@ const useStyles = makeStyles((theme) => ({
         justifyContent:'center',
         margin:theme.spacing(6),
         padding:'10px',
-        height:"70vh",
-        boxShadow:"-5px 5px 8px #888888",
+        height:"80vh",
+        background:"white",
         width:'40rem',
         [theme.breakpoints.down('md')]:{
-            height:'60vh'
+            height:'80vh'
         }
     },
     alignForms:{
@@ -31,18 +35,21 @@ const useStyles = makeStyles((theme) => ({
             width:'auto'
         },
         padding:'10px',
-        mardin:theme.spacing(2)
     },
     header:{
-        color:"#3f51b5",
-        borderBottom:"2px solid #3f51b5"
-    }
+        color:"#160c66",
+        letterSpacing:'0.1em',
+        fontFamily:'Chela One,cursive',
+        fontSize:'2rem',
+    },
 }))
 
-const Signup = () => {
-    
+const Signup = (props) => {
+
+    const {auth,authMsg} = props;
     const [formData,setformData] = useState({
-        name:"",
+        firstName:"",
+        lastName:"",
         password:"",
         phNo:"",
         email:"",
@@ -52,18 +59,44 @@ const Signup = () => {
         setformData({...formData,[e.target.id]:e.target.value})
     }
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        props.signup(formData);
+    }
+
+    const Alert = (props) => {
+        return <MuiAlert elevation={6} variant="filled" {...props} />;
+    }
+
     const classes = useStyles();
     return(
         <>
         <Dashboard>
+        {authMsg?
+                <Alert 
+                    severity={authMsg === "SIGNUP SUCCESS"?"success":"error"}
+                    className={classes.alert}>
+                     {authMsg}
+                </Alert>
+              :null } 
         <form className={classes.container}>
             <FormControl className={classes.formControl} >
                 <h3 className={classes.header}>Sign Up</h3>
                 <TextField  
-                    id="name"
-                    label="Name"
+                    id="firstName"
+                    label="First Name"
                     type = "text"
                     onChange = {handleChange}
+                    color="secondary"
+                    required
+                    className={classes.alignForms}
+                />
+                <TextField  
+                    id="lastName"
+                    label="Last Name"
+                    type = "text"
+                    onChange = {handleChange}
+                    color="secondary"
                     required
                     className={classes.alignForms}
                 />
@@ -72,6 +105,7 @@ const Signup = () => {
                     label="Email"
                     type = "email"
                     onChange = {handleChange}
+                    color="secondary"
                     required
                     className={classes.alignForms}
                 />
@@ -80,6 +114,7 @@ const Signup = () => {
                     label="Password"
                     type = "password"
                     onChange = {handleChange}
+                    color="secondary"
                     required
                     className={classes.alignForms}
                 />
@@ -89,18 +124,33 @@ const Signup = () => {
                     type = "tel"
                     pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                     onChange = {handleChange}
+                    color="secondary"
                     required
                     className={classes.alignForms}
                 />
-                <Button variant="contained" color="primary">
+                <Button variant="contained"  color="secondary" onClick={handleSubmit}>
                   Signup
                </Button>
             </FormControl>
 
         </form>
         </Dashboard>
+        {auth.uid&&<Redirect to = "/"/>}
         </>
     )
 }
 
-export default  Signup;
+const mapStateToProps = (state) => {
+    return {
+        auth: state.firebase.auth,
+        authMsg: state.auth.authMsg
+      }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return{
+        signup:(creds) => dispatch(signUp(creds))
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Signup);

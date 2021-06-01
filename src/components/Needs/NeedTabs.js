@@ -6,14 +6,11 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import ResourceDetails from '../resources/ResourceDetails';
 import {firestoreConnect} from "react-redux-firebase";
 import {compose} from "redux";
 import { connect } from 'react-redux';
-import Grid from '@material-ui/core/Grid';
-import NeedLayout from '../Needs/NeedLayout';
-import {Button} from "@material-ui/core";
-import { Link } from 'react-router-dom';
+import NeedDetails from './NeedDetails';
+import Dashboard from "../Home/Dashboard";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -62,21 +59,14 @@ const useStyles = makeStyles((theme) => ({
   tabPanel:{
     display:'flex',
     justifyContent:'center',
-    background:'#ffc63db0'
+    background:'#ffc63db0',
   },
   Tabs:{
     background:'#ffbd1c',
   },
-  button:{
-    margin:"10px",
-    border:'2px solid #160c66'
-},
-link: {
-  textDecoration: "none",
-},
 }));
 
-const NavTabs = (props) =>{
+const NeedTabs = (props) =>{
 
   const {oxygen,
     beds,
@@ -119,11 +109,9 @@ const NavTabs = (props) =>{
   }
 
   return (
-    <>
+    <Dashboard>
     <div className={classes.root}>
       <AppBar position="static" color="default">
-        <Grid container>
-          <Grid item sm={11} xs={9}>
           <Tabs
           value={value}
           onChange={handleChange}
@@ -142,54 +130,45 @@ const NavTabs = (props) =>{
           <Tab label="Beds" {...a11yProps(4)} className={classes.tab}/>
           <Tab label="others" {...a11yProps(5)} className={classes.tab}/>
         </Tabs> 
-          </Grid>
-          <Grid item sm={1} xs={3}  className={classes.Tabs}>
-          <Link to = "/needs" className={classes.link}>
-          <Button 
-            variant="outlined" 
-            color="secondary"
-            className={classes.button}>
-             Needs
-          </Button>
-          </Link>  
-          </Grid>
-        </Grid>  
       </AppBar>
+      <div className="alignTab">
       <TabPanel value={value} index={0} className={classes.tabPanel}>
-        <ResourceDetails res = {oxygen} district = {district} />
+        <NeedDetails needs = {oxygen} district = {district} />
       </TabPanel>
+      </div>
       <TabPanel value={value} index={1} className={classes.tabPanel}>
-      <ResourceDetails res = {plasma}  district = {district}/>
+      <NeedDetails needs = {plasma}  district = {district}/>
       </TabPanel>
       <TabPanel value={value} index={2} className={classes.tabPanel}>
-      <ResourceDetails res = {medicine}  district = {district}/>
+          <NeedDetails needs = {medicine}  district = {district}/>
       </TabPanel>
       <TabPanel value={value} index={3} className={classes.tabPanel}>
-      <ResourceDetails res = {food}  district = {district}/>
+      <NeedDetails needs = {food}  district = {district}/>
       </TabPanel>
       <TabPanel value={value} index={4} className={classes.tabPanel}>
-      <ResourceDetails res = {beds}  district = {district}/>
+      <NeedDetails needs = {beds}  district = {district}/>
       </TabPanel>
+      <div>
       <TabPanel value={value} index={5} className={classes.tabPanel}>
-      <ResourceDetails res = {others} district = {district}/>
+      <NeedDetails needs = {others} district = {district}/>
       </TabPanel>
+      </div>
     </div>
-  </>
+    </Dashboard>
   );
 }
 
 const mapStateToProps = (states) => {
-
-  const resources = states.firestore.ordered.resources;
-  console.log(states)
+  console.log(states);
+  const needs = states.firestore.ordered.needs;
   const {state,district} = states.loc;
 
-  const oxygen = resources ? resources.filter((res) => res.resType === 'oxygen'):[];            
-  const beds =  resources? resources.filter((res) => res.resType === 'beds' ):[];
-  const food =  resources? resources.filter((res) => res.resType === 'food' ):[]; 
-  const plasma =  resources? resources.filter((res) => res.resType === 'plasma' ):[];             
-  const medicine = resources? resources.filter((res) => res.resType === 'medicine'):[];              
-  const others = resources? resources.filter((res) => res.resType === 'others' ):[]; 
+  const oxygen = needs ? needs.filter((need) => need.needType === 'oxygen'):[];            
+  const beds =  needs? needs.filter((need) => need.needType === 'beds' ):[];
+  const food =  needs? needs.filter((need) => need.needType === 'food' ):[]; 
+  const plasma =  needs? needs.filter((need) => need.needType === 'plasma' ):[];             
+  const medicine = needs? needs.filter((need) => need.needType === 'medicine'):[];              
+  const others = needs? needs.filter((need) => need.needType === 'others' ):[]; 
                  
   
   return {
@@ -207,6 +186,6 @@ const mapStateToProps = (states) => {
 export default compose(
   connect(mapStateToProps),
   firestoreConnect([{
-    collection: 'resources'
+    collection: 'needs'
   }])
-)(NavTabs)
+)(NeedTabs);
