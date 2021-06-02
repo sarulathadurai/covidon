@@ -27,14 +27,14 @@ const useStyles = makeStyles((theme) => ({
         width:'40rem',
         background:"white",
         [theme.breakpoints.down('md')]:{
-            height:'50vh',
+            height:'55vh',
         }
     },
     alignForms:{
         width:"20rem",
         color:'black',
         [theme.breakpoints.down('md')]:{
-            width:'20rem'
+            width:'10rem'
         },
         padding:'10px',
         margin:theme.spacing(2)
@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up('md')]:{
             width:'50%',
         }
-    }
+    },
 }))
 
 const Signin = (props) => {
@@ -79,7 +79,7 @@ const Signin = (props) => {
     const classes = useStyles();
     return(
         <Dashboard>  
-            {loginMsg && auth.uid?
+            {loginMsg?
                 <Alert 
                     severity={loginMsg === "LOGIN SUCCESS"?"success":"error"}
                     className={classes.alert}>
@@ -105,6 +105,7 @@ const Signin = (props) => {
                     onChange = {handleChange}
                     className={classes.alignForms}
                />
+               
                <Button variant="contained" color="secondary"  onClick={handleSubmit}>
                   Login
                </Button>

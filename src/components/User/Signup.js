@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
         justifyContent:'center',
         margin:theme.spacing(6),
         padding:'10px',
-        height:"80vh",
+        height:"90vh",
         background:"white",
         width:'40rem',
         [theme.breakpoints.down('md')]:{

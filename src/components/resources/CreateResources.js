@@ -10,6 +10,7 @@ import Select from '@material-ui/core/Select';
 import data from '../../data.json';
 import {connect} from 'react-redux';
 import {createResource} from "../../store/actions/resourceActions"
+import { Redirect } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -27,6 +28,9 @@ const useStyles = makeStyles((theme) => ({
         height: "80vh",
         background:"white",
         width: '40rem',
+        // [theme.breakpoints.down('md')]: {
+        //     height: "60vh",
+        // },
     },
     select:{
         margin:theme.spacing(),
@@ -73,6 +77,9 @@ const CreateResource = (props) => {
     }
 
     const classes = useStyles();
+
+    if(!props.auth) return <Redirect to='/signin'/>
+
     return (
         <>
             <Dashboard>
@@ -164,7 +171,7 @@ const CreateResource = (props) => {
                                 ))}
                         </Select>
                         </FormControl>
-                        <Button  onClick={handleSubmit} variant="contained"  color="secondary">
+                        <Button  onClick={handleSubmit} variant="contained"  color="secondary" m={3}>
                             Create
                         </Button>
                     </FormControl>
@@ -174,6 +181,11 @@ const CreateResource = (props) => {
     )
 }
 
+const mapStateToProps = (states) => {
+    return{
+        auth:states.firebase.auth.uid
+    }
+}
 
 const mapDispatchToProps = (dispatch) => {
     return{
@@ -182,4 +194,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default connect(null,mapDispatchToProps)(CreateResource);
+export default connect( mapStateToProps,mapDispatchToProps)(CreateResource);

@@ -4,11 +4,10 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Search from './Search';
-import { Link} from 'react-router-dom';
+import {Link,useLocation} from 'react-router-dom';
 import {connect} from 'react-redux';
 import SignedOutLinks from './NavLinks/SignOutLinks';
 import SignedInLinks from './NavLinks/SignedInLinks';
@@ -94,6 +93,7 @@ const Dashboard = ({ children,auth }) => {
   const classes = useStyles();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const location = useLocation();
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
@@ -120,6 +120,20 @@ const Dashboard = ({ children,auth }) => {
     </Menu>
   );
 
+  const SearchTab = () => {
+    console.log(location);
+    if(location.pathname === '/' || location.pathname === '/needs'){
+      return (
+        <div className={classes.search}>        
+          <Search/>
+        </div>
+        
+      )
+    }else{
+      return null;
+    }
+  }
+
   return (
     <>
       <div className={classes.grow}>
@@ -128,13 +142,9 @@ const Dashboard = ({ children,auth }) => {
             <Link to="/" className={classes.link}>
               <Typography className={classes.title} variant="h6" noWrap>
                 Covidon
-              
               </Typography>
             </Link>
-            <div className={classes.search}>
-              <Search className={
-                classes.inputInput} />
-            </div>
+            {SearchTab()}
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
               {auth?<SignedInLinks/>:

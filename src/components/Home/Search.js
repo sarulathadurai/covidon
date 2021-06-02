@@ -24,6 +24,18 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     minWidth: 120,
   },
+  sectionDesktop: {
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'flex',
+    },
+  },
+  sectionMobile: {
+    display: 'flex',
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
+    },
+  },
 }));
 
 const Search = (props) => {
@@ -38,6 +50,7 @@ const Search = (props) => {
         <SearchIcon />
         Search by district
       </Button>
+      {/* <SearchIcon color="secondary"  onClick={() => setOpen(true)} /> */}
       <Dialog
         disableBackdropClick
         disableEscapeKeyDown

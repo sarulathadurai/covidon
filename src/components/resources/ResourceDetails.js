@@ -23,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     backgroundColor: '#1e235a',
     marginRight: '1vw'
+  },
+  info:{
+    color:'grey'
   }
 }));
 
@@ -72,14 +75,23 @@ const ResourceDetails = ({ res, district, children }) => {
 
     )
   }
+
+  if(res.length === 0 && district){
+    return <p className={classes.info}>No results found {`for ${district}`}</p>
+  }else if(res.length === 0){
+    return <p className={classes.info}>No results found</p>
+  }
+
+  const filteredRes = res.filter((el) =>
+  el.district === district
+)
+
   return (
     district ?
-      res.filter((el) =>
-        el.district === district
-      )
-        .map((el) =>
+      filteredRes.length === 0 ? <p className={classes.info}>No results found for {district}</p>:
+        (filteredRes.map((el) =>
           showResource(el)
-        ) :
+        )) :
       res.map((el) =>
         showResource(el)
       )

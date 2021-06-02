@@ -10,6 +10,7 @@ import Select from '@material-ui/core/Select';
 import data from '../../data.json';
 import {connect} from 'react-redux';
 import { postNeed } from '../../store/actions/needActions';
+import {Redirect} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -25,7 +26,10 @@ const useStyles = makeStyles((theme) => ({
         padding: '10px',
         height: "80vh",
         width: '40rem',
-        background:"white"
+        background:"white",
+        [theme.breakpoints.down('md')]: {
+           height:"70vh"
+        },
     },
     select:{
         margin:theme.spacing(),
@@ -73,6 +77,9 @@ const CreateNeed = (props) => {
     }
 
     const classes = useStyles();
+
+    if(!props.auth) return <Redirect to='/signin'/>
+
     return (
         <>
            <Dashboard>
@@ -184,10 +191,9 @@ const CreateNeed = (props) => {
     )
 }
 
-const mapStateToProps = (state) => {
-    console.log(state)
+const mapStateToProps = (states) => {
     return{
-
+        auth : states.firebase.auth.uid
     }
 }
 

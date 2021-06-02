@@ -24,6 +24,9 @@ const useStyles = makeStyles((theme)=>({
   blue:{
       backgroundColor:'#1e235a',
       marginRight: '1vw'
+  },
+  info:{
+    color:'grey'
   }
 }));
 
@@ -63,13 +66,20 @@ const NeedDetails = ({needs,district,children}) => {
   
     )
   }
-    needs.length === 0 && <p> No needs found </p>
+
+  if(needs.length === 0 && district){
+    return <p className={classes.info}>No results found {`for ${district}`}</p>
+  }else if(needs.length === 0){
+    return <p className={classes.info}>No results found</p>
+  }
+
+  const filteredNeeds = needs.filter((el) =>
+  el.district === district
+)
     return(
       district ? 
-      needs.filter((el)=>
-        el.district === district
-      )
-      .map((el) =>
+      filteredNeeds.length === 0 ? <p className={classes.info}>No results found for {district}</p>:
+      filteredNeeds.map((el) =>
           showNeed(el)
       ) :
       needs.map((el) =>

@@ -11,7 +11,6 @@ import {firestoreConnect} from "react-redux-firebase";
 import {compose} from "redux";
 import { connect } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
-import NeedLayout from '../Needs/NeedLayout';
 import {Button} from "@material-ui/core";
 import { Link } from 'react-router-dom';
 
@@ -94,25 +93,20 @@ const NavTabs = (props) =>{
     setValue(newValue);
   };
 
-  const showResults = () => {
+  const showResults = (
+    
+  ) => {
     if(district){
       return(
         <Typography>
-        All results are shown for {district}.
+        results are shown for {district}.
       </Typography>
       );
     }
-      else if (state){
-        return (     
-        <Typography>
-          All results are shown for {state}.
-        </Typography>
-        )
-      }
       else{
         return(
         <Typography>
-          All results are shown.
+          results are shown.
         </Typography>
         )
       }

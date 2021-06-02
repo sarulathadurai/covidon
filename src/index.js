@@ -6,14 +6,17 @@ import Routes from './routes';
 import rootReducer from './store/reducers/rootReducer';
 import { applyMiddleware, createStore,compose} from 'redux';
 import firebase from 'firebase/app'
-import {Provider} from "react-redux";
+import {Provider,useSelector} from "react-redux";
 import { createFirestoreInstance,getFirestore,reduxFirestore } from 'redux-firestore'
-import { ReactReduxFirebaseProvider,getFirebase} from 'react-redux-firebase';
+import { ReactReduxFirebaseProvider,getFirebase,isLoaded} from 'react-redux-firebase';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import thunk from 'redux-thunk'
 import config from './config';
- 
+import { makeStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+
 const store = createStore(
   rootReducer,
   compose(
@@ -33,6 +36,15 @@ const theme = createMuiTheme({
   },
 });
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    justifyContent:'center',
+    alignItems:'center',
+  },
+}));
+
+
 const rrfConfig = {
   userProfile: 'users',
   useFirestoreForProfile: true,
@@ -42,19 +54,35 @@ const rrfProps = {
   firebase,
   config: rrfConfig,
   dispatch:store.dispatch,
-  createFirestoreInstance
+  createFirestoreInstance,
 }
 
-ReactDOM.render(
+function AuthIsLoaded({ children }) {
+  const classes = useStyles();
+  const auth = useSelector(state => state.firebase.auth)
+  if (!isLoaded(auth)){
+    return(
+      <div className={classes.root}>
+      <CircularProgress color="secondary" />
+    </div>
+    )
+  } 
+  return children
+}
+
+  ReactDOM.render(
     <Provider store={store}>
       <ReactReduxFirebaseProvider {...rrfProps}>
       <ThemeProvider theme={theme}>
+        <AuthIsLoaded>
         <Routes/>
+        </AuthIsLoaded>
       </ThemeProvider>
       </ReactReduxFirebaseProvider>
     </Provider>,
   document.getElementById('root')
 );
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

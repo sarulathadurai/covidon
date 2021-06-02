@@ -15,12 +15,29 @@ const useStyles = makeStyles((theme) => ({
         margin: "10px",
         padding: 0,    
         fontWeight:'1000',
-        fontSize:'0.875rem'
+        fontSize:'0.875rem',
+        [theme.breakpoints.down('md')]:{
+            margin:0
+        }
       },
       avatar: {
         backgroundColor: '#1e235a',
         textDecoration:"none"
-      }
+      },
+      sectionDesktop: {
+        display: 'none',
+        [theme.breakpoints.up('md')]: {
+          display: 'flex',
+        },
+      },
+      sectionMobile: {
+        display: 'flex',
+        textDecoration: "none",
+        color: "#160c66",
+        [theme.breakpoints.up('md')]: {
+          display: 'none',
+        },
+      }, 
 }))
 
 const SignedOutLinks = (props) => {
@@ -56,7 +73,7 @@ const SignedOutLinks = (props) => {
                 Sign Out
             </MenuItem>
             </NavLink>
-            <NavLink to="myposts">
+            <NavLink to="myposts" className={classes.sectionDesktop}>
             <IconButton
                 edge="end"
                 aria-label="account of current user"
@@ -65,10 +82,13 @@ const SignedOutLinks = (props) => {
                 onClick={handleProfileMenuOpen}
                 color="secondary"
               >
-
-                {/* <AccountCircle /> */}
                 <Avatar className={classes.avatar}>{props.initials}</Avatar>
             </IconButton>
+            </NavLink>
+            <NavLink to="myposts" className = {classes.sectionMobile}>
+                <MenuItem>
+                    My Posts
+                </MenuItem>
             </NavLink>
         </React.Fragment>
     )

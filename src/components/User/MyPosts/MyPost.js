@@ -16,7 +16,7 @@ import {firestoreConnect} from "react-redux-firebase";
 import {compose} from "redux";
 import PostResOperations from './PostResOperations';
 import PostNeedOperation from './PostNeedOperation';
-
+import {Redirect} from 'react-router-dom';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -55,16 +55,34 @@ const useStyles = makeStyles((theme) => ({
     root: {
         backgroundColor: theme.palette.background.paper,
         width: 600,
-        marginTop: 50
+        marginTop: 50,
+        [theme.breakpoints.down('md')]:{
+            width: 'auto',
+            marginLeft:3,
+            marginTop: 20,
+        }  
     },
     card: {
         marginTop: 50,
         marginLeft: 20,
+        minWidth:200,
+        [theme.breakpoints.down('md')]:{
+            marginTop:20,
+            marginLeft:10
+        }  
     },
+    CardContent:{
+
+    },
+    title: {
+        fontSize: 28,
+        fontFamily: 'Chela One,cursive',
+        color:'#1e235a'
+      },
 }));
 
 const MyPost = (props) => {
-    const { myPostRes, myPostNeeds } = props;
+    const { myPostRes, myPostNeeds,profile,uid } = props;
     console.log({ myPostRes, myPostNeeds });
     const [anchorEl, setAnchorEl] = useState(null)
     const classes = useStyles();
@@ -78,24 +96,26 @@ const MyPost = (props) => {
     const handleChangeIndex = (index) => {
         setValue(index);
     };
-
     return (
         <Dashboard>
-            <Grid container spacing={2} >
-                <Grid item sm={3} xs={3}>
-                    <Card className={classes.card}>
+            <Grid container spacing={2}>
+                <Grid item sm={3} xs={12}>
+                    <Card className={classes.card} variant="outlined">
                         <CardContent>
                             <Typography>
-                                <Avatar bgColor="secondary" >ka</Avatar>
+                                <Avatar bgColor="secondary">{profile.initials} </Avatar>
+                                <h3>{profile.firstName}{profile.lastName}</h3>
+                                <p>{profile.email}</p>
+                                <p>{profile.phNo}</p>
                             </Typography>
                         </CardContent>
                     </Card>
                 </Grid>
-                <Grid item sm={9} xs={9}>
+                <Grid item sm={9} xs={12}>
                     <div className={classes.root}>
                         <AppBar position="static" color="default">
                             <Box textAlign="center" fontWeight="fontWeightBold">
-                                <h3>Your Posts</h3>
+                                <h3 className={classes.title}>Your Posts</h3>
                             </Box>
                             <Tabs
                                 value={value}
@@ -139,13 +159,15 @@ const MyPost = (props) => {
 
 const mapStateToProps = (states) => {
     const uid = states.firebase.auth.uid;
+    const profile = states.firebase.profile;
     const resources = states.firestore.ordered.resources;
     const myPostRes = resources ? resources.filter((res) => res.userId === uid) : []
     const needs = states.firestore.ordered.needs;
     const myPostNeeds = needs ? needs.filter((need) => need.userId === uid) : []
     return {
         myPostNeeds,
-        myPostRes
+        myPostRes,
+        profile
     }
 
 }
