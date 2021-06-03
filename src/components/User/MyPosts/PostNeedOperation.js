@@ -15,7 +15,6 @@ import { deleteNeedPost,updateNeedPost } from '../../../store/actions/myPostActi
 import UpdateNeedForm from './UpdateNeedForm';
 
 const PostNeedOperation = (props) => {
-    console.log(props);
     const [anchorEl, setAnchorEl] = useState(null);
     const [open, setOpen] = React.useState(false);
     const [updateOpen, setUpdateOpen] = React.useState(false);
@@ -47,13 +46,14 @@ const PostNeedOperation = (props) => {
                 open={Boolean(anchorEl)}
                 onClose={() => { setAnchorEl(null) }}
             >
-                <MenuItem>
-                    <EditIcon color="secondary" onClick={toggleUpdateDialog} />
-                    <UpdateNeedForm updateOpen={updateOpen} updatePost={updatePost} toggleUpdateDialog={toggleUpdateDialog} need={props.el} />
+                <MenuItem onClick={toggleUpdateDialog}> 
+                  <EditIcon className={props.icon}/> Update
                 </MenuItem>
-                <MenuItem>
-                    <DeleteIcon color="secondary" onClick={toggleDelDialog} />
-                    <Dialog
+                <MenuItem onClick={toggleDelDialog}>
+                     <DeleteIcon className={props.icon}/> Delete
+                </MenuItem>
+                <UpdateNeedForm updateOpen={updateOpen} updatePost={updatePost} toggleUpdateDialog={toggleUpdateDialog} need={props.el} />
+                <Dialog
                         open={open}
                         onClose={toggleDelDialog}
                         aria-labelledby="alert-dialog-title"
@@ -66,7 +66,7 @@ const PostNeedOperation = (props) => {
                             </DialogContentText>
                         </DialogContent>
                         <DialogActions>
-                            <Button onClick={toggleDelDialog} color="primary">
+                            <Button onClick={toggleDelDialog} color="primary" >
                                 Disagree
                             </Button>
                             <Button onClick={deletePost} color="primary" autoFocus>
@@ -74,7 +74,7 @@ const PostNeedOperation = (props) => {
                             </Button>
                         </DialogActions>
                     </Dialog>
-                </MenuItem>
+               
             </Menu>
         </>
     )

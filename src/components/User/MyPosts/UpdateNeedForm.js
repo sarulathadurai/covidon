@@ -82,11 +82,11 @@ const UpdateNeedForm = (props) => {
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
         >
-            <DialogTitle id="alert-dialog-title" color="secondary">{"Update Stocks"}</DialogTitle>
+            <DialogTitle id="alert-dialog-title" color="secondary">{"Update Needs"}</DialogTitle>
             <DialogContent>
             <form className={classes.container}>
                     <FormControl className={classes.formControl} >
-                        <h3 className={classes.header}>Post Need</h3>
+                        <h3 className={classes.header}>Update Need</h3>
                         <TextField
                             id="patientName"
                             label="Patient Name"
@@ -188,7 +188,7 @@ const UpdateNeedForm = (props) => {
             <DialogActions>
                 <Button onClick={props.toggleUpdateDialog} color="primary">
                     Disagree
-                            </Button>
+                </Button>
                 <Button onClick={handleSubmit} color="primary" autoFocus>
                     Agree
                             </Button>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -71,20 +71,32 @@ const useStyles = makeStyles((theme) => ({
             marginLeft:10
         }  
     },
-    CardContent:{
-
+    typography:{
+        display:'grid',
+        placeItems:'center'
     },
     title: {
         fontSize: 28,
-        fontFamily: 'Chela One,cursive',
-        color:'#1e235a'
-      },
+        fontFamily: 'Mate SC, serif',
+        color:'#1e235a',
+    },
+    avatar: {
+        backgroundColor: '#1e235a',
+        marginRight: '1vw',
+        padding:2
+    },
+    icon:{
+        background:"#ffbd1c9c",
+        color:"#1e235a",
+        borderRadius:'50px',
+        padding:3,
+        margin:6,
+        
+    }
 }));
 
 const MyPost = (props) => {
-    const { myPostRes, myPostNeeds,profile,uid } = props;
-    console.log({ myPostRes, myPostNeeds });
-    const [anchorEl, setAnchorEl] = useState(null)
+    const { myPostRes, myPostNeeds,profile,uid} = props;
     const classes = useStyles();
     const theme = useTheme();
     const [value, setValue] = React.useState(0);
@@ -96,18 +108,21 @@ const MyPost = (props) => {
     const handleChangeIndex = (index) => {
         setValue(index);
     };
+    if(!uid) return <Redirect to='signin' />
     return (
         <Dashboard>
             <Grid container spacing={2}>
                 <Grid item sm={3} xs={12}>
                     <Card className={classes.card} variant="outlined">
-                        <CardContent>
-                            <Typography>
-                                <Avatar bgColor="secondary">{profile.initials} </Avatar>
-                                <h3>{profile.firstName}{profile.lastName}</h3>
-                                <p>{profile.email}</p>
-                                <p>{profile.phNo}</p>
-                            </Typography>
+                        <CardContent >
+                                <Typography className={classes.typography}>
+                                <div className={classes.avatarStyle}>
+                                <Avatar className={classes.avatar}>{profile.initials} </Avatar>
+                                </div>   
+                                <h3 className={classes.title}>{profile.firstName}{profile.lastName}</h3>
+                                <p fontWeight="bold">Email: {profile.email}</p>
+                                <p fontWeight="bold">Contact Number: {profile.phNo}</p>
+                                </Typography>
                         </CardContent>
                     </Card>
                 </Grid>
@@ -137,14 +152,14 @@ const MyPost = (props) => {
                             <TabPanel value={value} index={0} dir={theme.direction}>
                                 {
                                     <ResourceDetails res={myPostRes}>
-                                        <PostResOperations/>
+                                        <PostResOperations icon={classes.icon}/>
                                     </ResourceDetails>
                                 }
                             </TabPanel>
                             <TabPanel value={value} index={1} dir={theme.direction}>
                                 {
                                      <NeedDetails needs={myPostNeeds}>
-                                        <PostNeedOperation/>
+                                        <PostNeedOperation icon={classes.icon}/>
                                  </NeedDetails>
                                 }
                             </TabPanel>
@@ -167,7 +182,8 @@ const mapStateToProps = (states) => {
     return {
         myPostNeeds,
         myPostRes,
-        profile
+        profile,
+        uid
     }
 
 }

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { fade,makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -24,6 +24,28 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     minWidth: 120,
   },
+  search: {
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    '&:hover': {
+      backgroundColor: fade(theme.palette.common.white, 0.25),
+    },
+    color:"#160c66",
+    marginLeft:10,
+     [theme.breakpoints.down('md')]: {
+      display:'none'
+    },
+  },
+  searchIcon: {
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   sectionDesktop: {
     display: 'none',
     [theme.breakpoints.up('md')]: {
@@ -46,11 +68,13 @@ const Search = (props) => {
   console.log(props);
   return (
     <React.Fragment>
+      <div className={classes.search}> 
       <Button color="inherit" onClick={() => setOpen(true)}>
         <SearchIcon />
         Search by district
       </Button>
-      {/* <SearchIcon color="secondary"  onClick={() => setOpen(true)} /> */}
+      </div>
+      <SearchIcon color="secondary"  onClick={() => setOpen(true)} className={classes.sectionMobile} />
       <Dialog
         disableBackdropClick
         disableEscapeKeyDown

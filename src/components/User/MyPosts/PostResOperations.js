@@ -10,10 +10,10 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import {connect} from "react-redux";
 import { deleteResPost, updateResPost } from '../../../store/actions/myPostAction';
 import UpdateResForm from './UpdateResForm';
+
 
 const PostResOperations = (props) => {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -47,12 +47,13 @@ const PostResOperations = (props) => {
                 onClose={() => { setAnchorEl(null) }}
             >
                 <MenuItem>
-                    <EditIcon color="secondary" onClick={toggleUpdateDialog} />
-                    <UpdateResForm updateOpen={updateOpen} updatePost={updatePost} toggleUpdateDialog={toggleUpdateDialog} res={props.el} />
+                    <EditIcon onClick={toggleUpdateDialog} className={props.icon}/> Update
                 </MenuItem>
                 <MenuItem>
-                    <DeleteIcon color="secondary" onClick={toggleDelDialog} />
-                    <Dialog
+                    <DeleteIcon onClick={toggleDelDialog} className={props.icon}/> Delete 
+                </MenuItem>
+                <UpdateResForm updateOpen={updateOpen} updatePost={updatePost} toggleUpdateDialog={toggleUpdateDialog} res={props.el} />
+                <Dialog
                         open={open}
                         onClose={toggleDelDialog}
                         aria-labelledby="alert-dialog-title"
@@ -73,7 +74,6 @@ const PostResOperations = (props) => {
                             </Button>
                         </DialogActions>
                     </Dialog>
-                </MenuItem>
             </Menu>
         </>
     )
