@@ -1,12 +1,10 @@
 import React from 'react';
-import {NavLink,Link} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 import MenuItem from '@material-ui/core/MenuItem';
 import {Avatar, makeStyles} from '@material-ui/core';
 import { signOut } from '../../../store/actions/authActions';
 import { connect } from 'react-redux';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import IconButton from '@material-ui/core/IconButton';
-import Menu from '@material-ui/core/Menu';
 
 const useStyles = makeStyles((theme) => ({
     link: {
@@ -42,17 +40,10 @@ const useStyles = makeStyles((theme) => ({
 
 const SignedOutLinks = (props) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const isMenuOpen = Boolean(anchorEl);
-    console.log(props);
     const handleProfileMenuOpen = (event) => {
-        console.log(event.currentTarget);
         setAnchorEl(event.currentTarget);
     };
       
-    const handleMenuClose = () => {
-    setAnchorEl(null);
-    };
-
     const classes = useStyles();
     const menuId = 'primary-search-account-menu';
 

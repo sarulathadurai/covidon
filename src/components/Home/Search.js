@@ -65,7 +65,6 @@ const Search = (props) => {
   const [open, setOpen] = useState(false);
   const [district, setDistrict] = useState("");
   const [state, setState] = useState("Andhra Pradesh");
-  console.log(props);
   return (
     <React.Fragment>
       <div className={classes.search}> 

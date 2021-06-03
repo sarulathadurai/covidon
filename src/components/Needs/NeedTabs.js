@@ -75,38 +75,14 @@ const NeedTabs = (props) =>{
     food,
     others,
     district,
-    state} = props;
+  } = props;
 
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (newValue) => {
     setValue(newValue);
   };
-
-  const showResults = () => {
-    if(district){
-      return(
-        <Typography>
-        All results are shown for {district}.
-      </Typography>
-      );
-    }
-      else if (state){
-        return (     
-        <Typography>
-          All results are shown for {state}.
-        </Typography>
-        )
-      }
-      else{
-        return(
-        <Typography>
-          All results are shown.
-        </Typography>
-        )
-      }
-  }
 
   return (
     <Dashboard>
@@ -159,7 +135,6 @@ const NeedTabs = (props) =>{
 }
 
 const mapStateToProps = (states) => {
-  console.log(states);
   const needs = states.firestore.ordered.needs;
   const {state,district} = states.loc;
 

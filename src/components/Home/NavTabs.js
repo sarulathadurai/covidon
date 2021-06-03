@@ -84,33 +84,14 @@ const NavTabs = (props) =>{
     food,
     others,
     district,
-    state} = props;
+  } = props;
 
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (newValue) => {
     setValue(newValue);
   };
-
-  const showResults = (
-    
-  ) => {
-    if(district){
-      return(
-        <Typography>
-        results are shown for {district}.
-      </Typography>
-      );
-    }
-      else{
-        return(
-        <Typography>
-          results are shown.
-        </Typography>
-        )
-      }
-  }
 
   return (
     <>
@@ -175,7 +156,6 @@ const NavTabs = (props) =>{
 const mapStateToProps = (states) => {
 
   const resources = states.firestore.ordered.resources;
-  console.log(states)
   const {state,district} = states.loc;
 
   const oxygen = resources ? resources.filter((res) => res.resType === 'oxygen'):[];            
