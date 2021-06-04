@@ -1,5 +1,4 @@
 export const updateResPost = (id,res) => {
-    console.log(res);
     return(dispatch,getState,{getFirestore}) => {
         const firestore = getFirestore();
         firestore.collection("resources").doc(id).update({

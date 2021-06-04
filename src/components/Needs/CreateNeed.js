@@ -26,7 +26,6 @@ const useStyles = makeStyles((theme) => ({
         padding: '10px',
         height: "80vh",
         width: '40rem',
-        background:"white",
         [theme.breakpoints.down('md')]: {
            height:"70vh"
         },

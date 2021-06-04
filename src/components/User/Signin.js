@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
         padding:'10px',
         height:"70vh",
         width:'40rem',
-        background:"white",
         [theme.breakpoints.down('md')]:{
             height:'55vh',
         }
@@ -55,7 +54,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Signin = (props) => {
     
-    console.log(props);
     const {loginMsg,auth} = props
     const [formData,setformData] = useState({
         email:"",
@@ -117,7 +115,6 @@ const Signin = (props) => {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state.auth.loginMsg);
     return{
         loginMsg: state.auth.loginMsg,
         auth: state.firebase.auth

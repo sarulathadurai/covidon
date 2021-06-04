@@ -70,7 +70,6 @@ const UpdateNeedForm = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(formData);
         props.updatePost(need.id,formData);
     }
 

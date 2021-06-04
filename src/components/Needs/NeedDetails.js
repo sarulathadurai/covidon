@@ -49,9 +49,13 @@ const NeedDetails = ({needs,district,children}) => {
         )}
         </Box> 
         </Box>
+        {el.otherName ? 
+        <Typography className={classes.pos} color="textSecondary">
+            {el.otherName}
+        </Typography>:
         <Typography className={classes.pos} color="textSecondary">
             {el.needType}
-        </Typography>
+        </Typography>}
         <Typography variant="body2" component="p">
             {el.description}
         </Typography>

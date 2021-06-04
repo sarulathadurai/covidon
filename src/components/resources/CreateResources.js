@@ -26,11 +26,7 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(6),
         padding: '10px',
         height: "80vh",
-        background:"white",
         width: '40rem',
-        // [theme.breakpoints.down('md')]: {
-        //     height: "60vh",
-        // },
     },
     select:{
         margin:theme.spacing(),
@@ -42,7 +38,8 @@ const useStyles = makeStyles((theme) => ({
     alignForms: {
         width: "18rem",
         [theme.breakpoints.down('md')]: {
-            width: 'auto'
+            width: 'auto',
+            margin:'auto'
         },
         padding: '10px',
         margin: theme.spacing(1)
@@ -105,6 +102,16 @@ const CreateResource = (props) => {
                             <MenuItem value="others">Others</MenuItem>
                         </Select>
                         </FormControl>
+                        {resType === "others" && <TextField
+                            id="otherName"
+                            label="Resource Name"
+                            type="text"
+                            color="secondary"
+                            onChange={handleChange}
+                            required
+                            value={otherName}
+                            className={classes.alignForms}
+                        />}
                         {resType !== "plasma" && <TextField
                             id="stock"
                             label="stock"
@@ -123,16 +130,6 @@ const CreateResource = (props) => {
                             onChange={handleChange}
                             required
                             value={bloodType}
-                            className={classes.alignForms}
-                        />}
-                        {resType === "others" && <TextField
-                            id="otherName"
-                            label="Resource Name"
-                            type="text"
-                            color="secondary"
-                            onChange={handleChange}
-                            required
-                            value={otherName}
                             className={classes.alignForms}
                         />}
                         <FormControl className={classes.select}>

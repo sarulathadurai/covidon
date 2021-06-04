@@ -49,9 +49,15 @@ const ResourceDetails = ({ res, district, children }) => {
             </Box>
           </Box>
           <Box className={classes.pos}>
-          <Typography  color="textSecondary">
+          {
+            el.otherName ? 
+            <Typography>
+              {el.otherName}
+            </Typography>:
+            <Typography  color="textSecondary">
             {el.resType}
-          </Typography>
+          </Typography> 
+          }
           <Typography variant="body2" component="p">
             {el.description}
           </Typography>

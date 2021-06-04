@@ -23,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
         margin:theme.spacing(6),
         padding:'10px',
         height:"90vh",
-        background:"white",
         width:'40rem',
         [theme.breakpoints.down('md')]:{
             height:'80vh'

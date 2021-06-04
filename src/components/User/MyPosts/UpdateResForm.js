@@ -69,7 +69,6 @@ const UpdateResForm = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(formData);
         props.updatePost(res.id,formData);
     }
 
