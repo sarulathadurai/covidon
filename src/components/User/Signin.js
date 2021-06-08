@@ -78,11 +78,8 @@ const Signin = (props) => {
         setOpen(true)    
     }
 
-    const handleClose = (event,reason) => {
-        if (reason === 'clickaway') {
-            return;
-          }
-      
+    const handleClose = (event) => {
+
           setOpen(false);
     }
 

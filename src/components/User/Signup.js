@@ -8,6 +8,7 @@ import {connect} from 'react-redux';
 import { signUp } from '../../store/actions/authActions';
 import MuiAlert from '@material-ui/lab/Alert';
 import {Redirect} from 'react-router-dom';
+import SnackBar from '@material-ui/core/Snackbar';
 
 const useStyles = makeStyles((theme) => ({
     container:{
@@ -41,6 +42,9 @@ const useStyles = makeStyles((theme) => ({
         fontFamily:'Chela One,cursive',
         fontSize:'2rem',
     },
+    snackbar:{
+        width:'100%'
+    }
 }))
 
 const Signup = (props) => {
@@ -54,6 +58,8 @@ const Signup = (props) => {
         email:"",
     })
 
+    const [open,setOpen] = useState(false);
+
     const handleChange = (e) => {
         setformData({...formData,[e.target.id]:e.target.value})
     }
@@ -61,6 +67,11 @@ const Signup = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         props.signup(formData);
+        setOpen(true)    
+    }
+
+    const handleClose = (event) => {
+          setOpen(false);
     }
 
     const Alert = (props) => {
@@ -72,11 +83,14 @@ const Signup = (props) => {
         <>
         <Dashboard>
         {authMsg?
-                <Alert 
+                <SnackBar autoHideDuration={6000} open={open} onClose={handleClose} className={classes.snackbar}>
+                     <Alert 
                     severity={authMsg === "SIGNUP SUCCESS"?"success":"error"}
                     className={classes.alert}>
+                    onClose={handleClose}
                      {authMsg}
-                </Alert>
+                     </Alert>
+                </SnackBar>
               :null } 
         <form className={classes.container}>
             <FormControl className={classes.formControl} >
