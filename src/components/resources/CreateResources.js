@@ -62,6 +62,7 @@ const CreateResource = (props) => {
         state:"Andhra Pradesh"
     })
 
+    const [error,setError] = useState(false)
     const {resType,stock,bloodType,otherName,district,state} = formData;
     const handleChange = (e) => {
         setformData({ ...formData, [e.target.id]: e.target.value })
@@ -69,7 +70,6 @@ const CreateResource = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(formData);
         props.createRes(formData);
     }
 
@@ -88,6 +88,7 @@ const CreateResource = (props) => {
                         <Select
                             labelId="demo-simple-select-label"
                             id="type"
+                            required
                             value={resType}
                             color="secondary"
                             onChange={(e)=>{
@@ -137,7 +138,7 @@ const CreateResource = (props) => {
                         <Select
                             id="state"    
                             value={state}      
-                            color="secondary"            
+                            color="secondary"          
                             onChange={(e)=>{
                                 setformData({...formData,state:e.target.value})
                             }}

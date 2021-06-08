@@ -134,7 +134,7 @@ const Signup = (props) => {
 
         </form>
         </Dashboard>
-        {auth.uid&&<Redirect to = "/"/>}
+        {auth.uid&&<Redirect to = "/dashboard"/>}
         </>
     )
 }

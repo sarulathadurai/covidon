@@ -7,8 +7,8 @@ import Dashboard from '../Home/Dashboard';
 import {connect} from 'react-redux';
 import {signin} from '../../store/actions/authActions'; 
 import MuiAlert from '@material-ui/lab/Alert';
-import {Redirect} from 'react-router-dom';
-
+import {Link, Redirect} from 'react-router-dom';
+import SnackBar from '@material-ui/core/Snackbar';
 
 const useStyles = makeStyles((theme) => ({
     container:{
@@ -50,6 +50,13 @@ const useStyles = makeStyles((theme) => ({
             width:'50%',
         }
     },
+    link:{
+        textDecoration:'none',
+        color:'blue'
+    },
+    snackbar:{
+        width:'100%'
+    }
 }))
 
 const Signin = (props) => {
@@ -58,7 +65,8 @@ const Signin = (props) => {
     const [formData,setformData] = useState({
         email:"",
         password:"",      
-    })
+    });
+    const [open,setOpen] = useState();
 
     const handleChange = (e) => {
         setformData({...formData,[e.target.id]:e.target.value})
@@ -67,7 +75,15 @@ const Signin = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         props.signIn(formData);
-        
+        setOpen(true)    
+    }
+
+    const handleClose = (event,reason) => {
+        if (reason === 'clickaway') {
+            return;
+          }
+      
+          setOpen(false);
     }
 
     const Alert = (props) => {
@@ -78,11 +94,14 @@ const Signin = (props) => {
     return(
         <Dashboard>  
             {loginMsg?
+            <SnackBar open={open} autoHideDuration={6000} onClose={handleClose} className={classes.snackbar}>
                 <Alert 
+                    onClose={handleClose}
                     severity={loginMsg === "LOGIN SUCCESS"?"success":"error"}
                     className={classes.alert}>
                      {loginMsg}
                 </Alert>
+            </SnackBar>
               :null } 
         <form className={classes.container} >                
             <FormControl className={classes.formControl} >
@@ -103,13 +122,17 @@ const Signin = (props) => {
                     onChange = {handleChange}
                     className={classes.alignForms}
                />
-               
+                <p>Not having an account?
+                    <Link to='/signup' className={classes.link}>
+                        Signup
+                    </Link>
+                </p>
                <Button variant="contained" color="secondary"  onClick={handleSubmit}>
                   Login
                </Button>
             </FormControl>
         </form>     
-        {auth.uid&&<Redirect to = "/"/>}
+        {auth.uid&&<Redirect to = "/dashboard"/>}
         </Dashboard>
     )
 }

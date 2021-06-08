@@ -94,7 +94,7 @@ const Dashboard = ({ children,auth }) => {
   );
 
   const SearchTab = () => {
-    if(location.pathname === '/' || location.pathname === '/needs'){
+    if(location.pathname === '/dashboard' || location.pathname === '/needs'){
       return (       
           <Search/>        
       )
@@ -108,11 +108,14 @@ const Dashboard = ({ children,auth }) => {
       <div className={classes.grow}>
         <AppBar position="static" className={classes.appBar}>
           <Toolbar>
-            <Link to="/" className={classes.link}>
+            {auth ?<Link to="/dashboard" className={classes.link}>
               <Typography className={classes.title} variant="h6" noWrap>
                 Covidon
               </Typography>
-            </Link>
+            </Link>:
+              <Typography className={classes.title} variant="h6" noWrap>
+                Covidon
+              </Typography>}
             <div className={classes.mobGrow}>
             </div>
             {SearchTab()}

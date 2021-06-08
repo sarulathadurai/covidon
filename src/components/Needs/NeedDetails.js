@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme)=>({
 
 const NeedDetails = ({needs,district,children}) => {
   const classes = useStyles();
+
   const showNeed = (el) => {
     return(
       <Card className={classes.root} variant="outlined" key={el.id}>
@@ -82,10 +83,10 @@ const NeedDetails = ({needs,district,children}) => {
 )
     return(
       district ? 
-      filteredNeeds.length === 0 ? <p className={classes.info}>No results found for {district}</p>:
+      (filteredNeeds.length === 0 ? <p className={classes.info}>No results found for {district}</p>:
       filteredNeeds.map((el) =>
           showNeed(el)
-      ) :
+      )) :
       needs.map((el) =>
         showNeed(el)
       )

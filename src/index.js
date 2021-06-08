@@ -37,11 +37,12 @@ const theme = createMuiTheme({
 });
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  root:{
     display: 'flex',
-    justifyContent:'center',
-    alignItems:'center',
-  },
+      '& > * + *': {
+        marginLeft: theme.spacing(2),
+      },
+  }
 }));
 
 

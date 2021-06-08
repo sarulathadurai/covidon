@@ -80,7 +80,7 @@ const NeedTabs = (props) =>{
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
-  const handleChange = (newValue) => {
+  const handleChange = (e,newValue) => {
     setValue(newValue);
   };
 

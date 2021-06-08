@@ -4,7 +4,6 @@ import { makeStyles,fade } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import ResourceDetails from '../resources/ResourceDetails';
 import {firestoreConnect} from "react-redux-firebase";
@@ -13,6 +12,8 @@ import { connect } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
 import {Button} from "@material-ui/core";
 import { Link } from 'react-router-dom';
+import withLoader from "../withLoaders";
+
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -27,7 +28,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box p={3}>
-          <Typography>{children}</Typography>
+          {children}
         </Box>
       )}
     </div>
@@ -77,7 +78,9 @@ link: {
 
 const NavTabs = (props) =>{
 
-  const {oxygen,
+  const {
+    resources,
+    oxygen,
     beds,
     plasma,
     medicine,
@@ -89,10 +92,11 @@ const NavTabs = (props) =>{
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
-  const handleChange = (newValue) => {
+  const handleChange = (e,newValue) => {
     setValue(newValue);
   };
 
+  const ResDet = withLoader(ResourceDetails,resources)
   return (
     <>
     <div className={classes.root}>
@@ -109,7 +113,6 @@ const NavTabs = (props) =>{
           aria-label="scrollable auto tabs example"
           className={classes.Tabs}
         >
-
           <Tab label="Oxygen" {...a11yProps(0)} className={classes.tab}/>
           <Tab label="Plasma" {...a11yProps(1)} className={classes.tab} />
           <Tab label="Medicine" {...a11yProps(2)} className={classes.tab} />
@@ -131,22 +134,22 @@ const NavTabs = (props) =>{
         </Grid>  
       </AppBar>
       <TabPanel value={value} index={0} className={classes.tabPanel}>
-        <ResourceDetails res = {oxygen} district = {district} />
+        <ResDet resources={resources}  res = {oxygen} district = {district}/>
       </TabPanel>
       <TabPanel value={value} index={1} className={classes.tabPanel}>
-      <ResourceDetails res = {plasma}  district = {district}/>
+      <ResDet resources={resources} res = {plasma}  district = {district}/>
       </TabPanel>
       <TabPanel value={value} index={2} className={classes.tabPanel}>
-      <ResourceDetails res = {medicine}  district = {district}/>
+      <ResDet resources={resources} res = {medicine}  district = {district}/>
       </TabPanel>
       <TabPanel value={value} index={3} className={classes.tabPanel}>
-      <ResourceDetails res = {food}  district = {district}/>
+      <ResDet resources={resources} res = {food}  district = {district}/>
       </TabPanel>
       <TabPanel value={value} index={4} className={classes.tabPanel}>
-      <ResourceDetails res = {beds}  district = {district}/>
+      <ResDet resources={resources} res = {beds}  district = {district}/>
       </TabPanel>
       <TabPanel value={value} index={5} className={classes.tabPanel}>
-      <ResourceDetails res = {others} district = {district}/>
+      <ResDet resources={resources} res = {others} district = {district}/>
       </TabPanel>
     </div>
   </>
@@ -167,6 +170,7 @@ const mapStateToProps = (states) => {
                  
   
   return {
+    resources,
     oxygen,
     beds,
     plasma,

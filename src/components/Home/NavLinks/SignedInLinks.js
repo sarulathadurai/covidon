@@ -59,7 +59,7 @@ const SignedOutLinks = (props) => {
                 Post Need
                 </MenuItem>
             </NavLink>
-            <NavLink className={classes.link} to='/'>
+            <NavLink className={classes.link} to='/dashboard'>
             <MenuItem onClick={props.signout}>
                 Sign Out
             </MenuItem>
